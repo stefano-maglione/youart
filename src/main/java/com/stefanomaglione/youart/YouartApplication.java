@@ -5,12 +5,18 @@ import com.stefanomaglione.youart.security.AppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.unit.DataSize;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import javax.servlet.MultipartConfigElement;
 
 //Tell Spring to automatically inject any dependencies that are marked in
 //our classes with @Autowired
@@ -28,6 +34,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 // automatically discovered and connected to the DispatcherServlet.
 @ComponentScan
 public class YouartApplication {
+
+	private static final String MAX_REQUEST_SIZE = "150MB";
 
 	public static void main(String[] args) {
 		SpringApplication.run(YouartApplication.class, args);
@@ -49,5 +57,23 @@ public class YouartApplication {
 	{
 		return new AppProperties();
 	}
+
+	// This configuration element adds the ability to accept multipart
+	// requests to the web container.
+	@Bean
+	public MultipartConfigElement multipartConfigElement() {
+		// Setup the application container to be accept multipart requests
+		final MultipartConfigFactory factory = new MultipartConfigFactory();
+		// Place upper bounds on the size of the requests to ensure that
+		// clients don't abuse the web container by sending huge requests
+		factory.setMaxFileSize(DataSize.parse(MAX_REQUEST_SIZE));
+		factory.setMaxRequestSize(DataSize.parse(MAX_REQUEST_SIZE));
+
+		// Return the configuration to setup multipart in the container
+		return factory.createMultipartConfig();
+	}
+
+
+
 
 }

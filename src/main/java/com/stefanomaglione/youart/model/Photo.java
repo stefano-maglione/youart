@@ -10,11 +10,13 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false, unique = true)
     private String url;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
     public long getId() {
         return id;

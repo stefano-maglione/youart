@@ -1,9 +1,6 @@
 package com.stefanomaglione.youart.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 
@@ -115,6 +112,8 @@ public class Customer implements Serializable {
     @Column(nullable=false)
     private Boolean emailVerificationStatus = false;
 
-   /* @OneToMany(mappedBy="userDetails", cascade=CascadeType.ALL)
-    private List<AddressEntity> addresses;*/
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "customer")
+    private Photo photo;
 }

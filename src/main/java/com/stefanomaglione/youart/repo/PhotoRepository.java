@@ -12,6 +12,6 @@ public interface PhotoRepository extends CrudRepository<Photo, Long> {
 
     //public List<Customer> findByuserName(String n);
     public Photo findByName(String n);
-    public Photo findByPhotoId(String id);
+    public Photo findById(String id);
 
 }

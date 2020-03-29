@@ -17,20 +17,11 @@ public class PhotoController {
     private PhotoService photoService;
 
 
-    @RequestMapping(value = "/photo/" , method = RequestMethod.POST)
-    public @ResponseBody
-    void addPhotoData(@RequestBody Photo photo, @RequestParam("data")
-            MultipartFile photoData) {
+    @RequestMapping(value = "/photo/" , method = RequestMethod.POST,headers = {"content-type=multipart/form-data"})
+    public @ResponseBody Photo addPhotoData(@RequestParam("data") MultipartFile photoData) {
 
-        InputStream in = null;
-        try {
-            in = photoData.getInputStream();
-            photoService.save(photo, in);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        Photo p = photoService.save(photoData);
+        return p;
     }
 
 

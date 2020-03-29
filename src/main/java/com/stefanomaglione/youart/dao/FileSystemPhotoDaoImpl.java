@@ -4,6 +4,7 @@ import com.stefanomaglione.youart.model.Photo;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -26,14 +27,14 @@ public class FileSystemPhotoDaoImpl implements PhotoDao{
     }
 
     @Override
-    public void save(Photo p, InputStream photoData) throws IOException {
+    public String save(Photo p, InputStream photoData) throws IOException {
 
         assert(photoData != null);
 
-        Path target = getPhotoPath(p);
-        Files.copy(photoData, target, StandardCopyOption.REPLACE_EXISTING);
+        File targetFile = new File("photo" + p.getId() + ".jpg");
+        Files.copy(photoData, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-
+        return targetFile.getAbsolutePath();
     }
 
 
@@ -56,9 +57,4 @@ public class FileSystemPhotoDaoImpl implements PhotoDao{
         return null;
     }
 
-    private Path getPhotoPath(Photo p){
-        assert(p != null);
-
-        return targetDir_.resolve("photo"+p.getId()+".jpeg");
-    }
 }
