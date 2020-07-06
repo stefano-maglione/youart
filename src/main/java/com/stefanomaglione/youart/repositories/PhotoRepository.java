@@ -1,7 +1,7 @@
-package com.stefanomaglione.youart.repo;
+package com.stefanomaglione.youart.repositories;
 
 
-import com.stefanomaglione.youart.model.Photo;
+import com.stefanomaglione.youart.domain.Photo;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

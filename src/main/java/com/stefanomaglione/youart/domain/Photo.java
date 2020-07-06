@@ -1,4 +1,4 @@
-package com.stefanomaglione.youart.model;
+package com.stefanomaglione.youart.domain;
 
 import javax.persistence.*;
 
@@ -16,7 +16,7 @@ public class Photo {
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    private User user;
 
     public long getId() {
         return id;
@@ -41,6 +41,17 @@ public class Photo {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
+
 
 
 

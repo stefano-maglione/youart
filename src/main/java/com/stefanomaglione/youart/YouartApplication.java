@@ -1,10 +1,9 @@
 package com.stefanomaglione.youart;
 
-import com.stefanomaglione.youart.repo.CustomerRepository;
+import com.stefanomaglione.youart.repositories.UserRepository;
 import com.stefanomaglione.youart.security.AppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 
@@ -26,7 +25,7 @@ import javax.servlet.MultipartConfigElement;
 @EnableWebMvc
 // Tell Spring that this object represents a Configuration for the
 // application
-@EnableJpaRepositories(basePackageClasses = CustomerRepository.class)
+@EnableJpaRepositories(basePackageClasses = UserRepository.class)
 @Configuration
 // Tell Spring to go and scan our controller package (and all sub packages) to
 // find any Controllers or other components that are part of our applciation.

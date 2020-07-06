@@ -1,11 +1,11 @@
-package com.stefanomaglione.youart.model;
+package com.stefanomaglione.youart.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 
 @Entity
-public class Customer implements Serializable {
+public class User implements Serializable {
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -81,7 +81,7 @@ public class Customer implements Serializable {
     @GeneratedValue
     private long id;
 
-    @Column(nullable=false)
+    @Column(nullable=true)
     private String customerId;
 
     @Column(nullable=false, length=50)
@@ -114,6 +114,6 @@ public class Customer implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
-            mappedBy = "customer")
+            mappedBy = "user")
     private Photo photo;
 }

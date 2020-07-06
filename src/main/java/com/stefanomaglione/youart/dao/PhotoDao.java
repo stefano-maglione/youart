@@ -1,10 +1,9 @@
 package com.stefanomaglione.youart.dao;
 
-import com.stefanomaglione.youart.model.Photo;
+import com.stefanomaglione.youart.domain.Photo;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Optional;
 

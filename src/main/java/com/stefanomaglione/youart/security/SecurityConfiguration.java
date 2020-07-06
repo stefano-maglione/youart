@@ -1,6 +1,6 @@
 package com.stefanomaglione.youart.security;
 
-import com.stefanomaglione.youart.service.CustomerService;
+import com.stefanomaglione.youart.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,12 +16,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @EnableWebSecurity
-public class WebSecurity extends WebSecurityConfigurerAdapter{
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
-    private final CustomerService userDetailsService;
+    private final UserService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public WebSecurity(CustomerService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public SecurityConfiguration(UserService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -59,7 +59,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
     
     protected AuthenticationFilter getAuthenticationFilter() throws Exception {
 	    final AuthenticationFilter filter = new AuthenticationFilter(authenticationManager());
-	    filter.setFilterProcessesUrl("/customer/login");
+	    filter.setFilterProcessesUrl("/user/login");
 	    return filter;
 	}
     

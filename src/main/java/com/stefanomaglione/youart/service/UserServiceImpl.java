@@ -2,10 +2,9 @@ package com.stefanomaglione.youart.service;
 
 import com.stefanomaglione.youart.Utils;
 import com.stefanomaglione.youart.exception.UserServiceException;
-import com.stefanomaglione.youart.model.Customer;
-import com.stefanomaglione.youart.repo.CustomerRepository;
+import com.stefanomaglione.youart.domain.User;
+import com.stefanomaglione.youart.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,10 +14,10 @@ import java.util.ArrayList;
 
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private CustomerRepository customerRepository;
+	private UserRepository userRepository;
 
 	@Autowired
 	Utils utils;
@@ -30,26 +29,26 @@ public class CustomerServiceImpl implements CustomerService {
 	PasswordResetTokenRepository passwordResetTokenRepository;*/
 
 	@Override
-	public Customer createCustomer(Customer customer) {
+	public User createUser(User user) {
 
-		if (customerRepository.findByEmail(customer.getEmail()) != null)
+		if (userRepository.findByEmail(user.getEmail()) != null)
 			throw new UserServiceException("Record already exists");
 
 
 		String publicUserId = utils.generateUserId(30);
-		customer.setCustomerId(publicUserId);
-		customer.setEncryptedPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
+		user.setCustomerId(publicUserId);
+		user.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		//userEntity.setEmailVerificationToken(utils.generateEmailVerificationToken(publicUserId));
-		Customer customerSaved = customerRepository.save(customer);
+		User userSaved = userRepository.save(user);
 
-		return customerSaved;
+		return userSaved;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Customer customer = customerRepository.findByEmail(email);
+		User user = userRepository.findByEmail(email);
 
-		if (customer == null)
+		if (user == null)
 			throw new UsernameNotFoundException(email);
 
 		/*return new User(customer.getEmail(), customer.getEncryptedPassword(),
@@ -57,28 +56,28 @@ public class CustomerServiceImpl implements CustomerService {
 				true, true,
 				true, new ArrayList<>());*/
 
-		return new User(customer.getEmail(), customer.getEncryptedPassword(), new ArrayList<>());
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getEncryptedPassword(), new ArrayList<>());
 	}
 
 	@Override
-	public Customer getCustomer(String email) {
-		Customer customer = customerRepository.findByEmail(email);
+	public User getUser(String email) {
+		User user = userRepository.findByEmail(email);
 
-		if (customer == null)
+		if (user == null)
 			throw new UsernameNotFoundException(email);
 
-		return customer;
+		return user;
 	}
 
 	@Override
-	public Customer getCustomerByCustomerId(String customerId) {
+	public User getUserByUserId(String customerId) {
 
-		Customer customer = customerRepository.findByCustomerId(customerId);
+		User user = userRepository.findByCustomerId(customerId);
 
-		if (customer == null)
+		if (user == null)
 			throw new UsernameNotFoundException("User with ID: " + customerId + " not found");
 
-		return customer;
+		return user;
 	}
 
 	/*@Override

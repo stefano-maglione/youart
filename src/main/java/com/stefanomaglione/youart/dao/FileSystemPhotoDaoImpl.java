@@ -1,9 +1,8 @@
 package com.stefanomaglione.youart.dao;
 
-import com.stefanomaglione.youart.model.Photo;
+import com.stefanomaglione.youart.domain.Photo;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,9 +29,10 @@ public class FileSystemPhotoDaoImpl implements PhotoDao{
     public String save(Photo p, InputStream photoData) throws IOException {
 
         assert(photoData != null);
+        String base = "/Users/fullname/Desktop/Progetto/photo/";
 
-        File targetFile = new File("photo" + p.getId() + ".jpg");
-        Files.copy(photoData, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        File targetFile = new File(base + "photo" + p.getId() + ".jpg");
+        Files.copy(photoData,targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         return targetFile.getAbsolutePath();
     }

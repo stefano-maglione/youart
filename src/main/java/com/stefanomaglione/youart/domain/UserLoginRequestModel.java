@@ -1,4 +1,4 @@
-package com.stefanomaglione.youart.model;
+package com.stefanomaglione.youart.domain;
 
 public class UserLoginRequestModel {
 	private String email;

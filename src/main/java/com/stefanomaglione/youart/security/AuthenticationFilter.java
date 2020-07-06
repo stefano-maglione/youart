@@ -6,16 +6,15 @@ import com.appsdeveloperblog.app.ws.shared.dto.UserDto;*/
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stefanomaglione.youart.SpringApplicationContext;
-import com.stefanomaglione.youart.model.Customer;
-import com.stefanomaglione.youart.model.UserLoginRequestModel;
-import com.stefanomaglione.youart.service.CustomerService;
+import com.stefanomaglione.youart.domain.User;
+import com.stefanomaglione.youart.domain.UserLoginRequestModel;
+import com.stefanomaglione.youart.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -63,18 +62,18 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
         
-        String userName = ((User) auth.getPrincipal()).getUsername();  
+        String userName = ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername();
         
         String token = Jwts.builder()
                 .setSubject(userName)
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.getTokenSecret() )
                 .compact();
-        CustomerService customerService = (CustomerService) SpringApplicationContext.getBean("customerServiceImpl");
-        Customer customer= customerService.getCustomer(userName);
+        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+        User user = userService.getUser(userName);
         
         res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
-        res.addHeader("UserID", customer.getCustomerId());
+        res.addHeader("UserID", user.getCustomerId());
 
     }  
 

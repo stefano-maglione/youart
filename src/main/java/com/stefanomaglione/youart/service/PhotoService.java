@@ -1,10 +1,7 @@
 package com.stefanomaglione.youart.service;
 
-import com.stefanomaglione.youart.model.Photo;
+import com.stefanomaglione.youart.domain.Photo;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public interface PhotoService {
 
